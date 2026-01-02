@@ -22,5 +22,5 @@ setup(
     version="0.0.1",
     author_email="divyanshuasadeveloper@gmail.com",
     packages=find_packages(),
-    requires=get_requirements("requirements.txt")
+    install_requires=get_requirements("requirements.txt")
 )
