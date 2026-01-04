@@ -45,7 +45,33 @@ class ModelTrainer:
                 "CatBoost": CatBoostRegressor()
             }
 
-            report = evaluate_models(X_train, X_test, y_train, y_test, models)
+            params = {
+                "SVR":{
+                    "kernel":['linear', 'poly', 'rbf', 'sigmoid'],
+                    "C":[10, 1, 0.1, 0.01],
+                },
+                "DecisionTree":{
+                    "criterion": ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    "splitter": ['best', 'random'],
+                    "max_depth":[2, 5, 10, 25, 50],
+                    "max_features": ['sqrt', 'log2', None]
+                },
+                "RandomForest":{
+                    "criterion": ['squared_error', 'absolute_error', 'friedman_mse', 'poisson'],
+                    "max_features": ['sqrt', 'log2'],
+                    "max_depth": [2, 5, 10, 25, 50]
+                },
+                "AdaBoost":{
+                    "n_estimators": [50, 100, 150],
+                    "loss":['linear', 'square', 'exponential']
+                },
+                "GradientBoost":{
+                    "loss":['squared_error', 'absolute_error', 'huber', 'quantile'],
+                    "n_estimators": [50, 100, 150],
+                    "criterion":['friedman_mse', 'squared_error']
+                }
+            }
+            report = evaluate_models(X_train, X_test, y_train, y_test, models, params)
 
             max_score = max(sorted(report.values()))
             best_model_name = ""
